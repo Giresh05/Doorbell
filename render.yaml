@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: facenet-api
+    env: python
+    # TensorFlow 1.15 requires an older Python version.
+    # Render supports 3.7, 3.8, 3.9, etc. Let's specify 3.8.
+    pythonVersion: "3.8"
+    
+    # Command to install dependencies
+    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt"
+    
+    # Command to start the application using gunicorn
+    # This looks for the 'app' variable in the 'app.py' file
+    startCommand: "gunicorn app:app"
+    
+    # Optional: Set up a health check
+    healthCheck:
+      path: "/"
+      initialDelaySeconds: 30
+    
+    # Optional: If your models are large, you might need a bigger instance
+    # plan: standard
